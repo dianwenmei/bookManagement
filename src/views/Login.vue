@@ -16,7 +16,7 @@
                 </el-form-item>
 
                 <el-form-item class="btns">
-                    <el-button type="primary" @click="login">登录</el-button>
+                    <el-button type="primary" @click="login" :loading="loading">登录</el-button>
                     <el-button type="info" @click="resetLoginForm">重置</el-button>
                 </el-form-item>
             </el-form>
@@ -28,7 +28,7 @@
     export default {
         data() {
             return {
-
+                loading: false,
                 //登陆表单
                 loginForm: {
                     username: '',
@@ -61,6 +61,8 @@
                     console.log(valid);
                     const _this = this;
                     if (valid) {
+                        this.loading = true;
+                        
                         this.$http.post('/user/login', this.loginForm).then(function (response) {
 
                             const res = response.data;
@@ -78,9 +80,12 @@
                                 //将token存入sessionstorage中，
                                 //通过函数式编程跳转到主页面，要读出用户身份，惊进行不同页面跳转。
                                 window.sessionStorage.setItem("token", res.data.token);
+                                window.sessionStorage.setItem("userid",res.data.user.userid);
                                 //跳转
                                 _this.$router.push("/home");
                             }
+                        }).catch(()=>{
+                            this.loading = false
                         })
 
                     } else {

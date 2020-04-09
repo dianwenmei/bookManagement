@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login'
-import Home from '../views/Home'
+import Home from '../views/Manager/Home'
 import '../assets/css/global.css'
-
+import Welcome from '../components/manager/Welcome'
+import BookList from '../components/manager/bookmanage/BookList'
+import AddBook from '../components/manager/bookmanage/AddBook'
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,9 +19,14 @@ const routes = [
         component: Login
     },
     {
-        path: '/Home',
+        path: '/home',
         name: 'Home',
-        component: Home
+        component: Home,
+        redirect: '/welcome',  //在Home中的 router-view中填入子组件
+        children: [
+            {path: '/welcome',component: Welcome},
+            {path: '/showbooks',component: BookList},
+            {path: '/addbook',component: AddBook}]
     },
     // {
     //   path: '/about',
