@@ -71,7 +71,7 @@
 
                             //密码或用户名出错
                             if (res.code == 0) {
-                                _this.$message.error(response.data.message);
+                                _this.$message.error(res.message);
                                 return false;
                             }
                             //登陆成功
@@ -80,7 +80,11 @@
                                 //将token存入sessionstorage中，
                                 //通过函数式编程跳转到主页面，要读出用户身份，惊进行不同页面跳转。
                                 window.sessionStorage.setItem("token", res.data.token);
-                                window.sessionStorage.setItem("userid",res.data.user.userid);
+                                window.sessionStorage.setItem("userId",res.data.user.userId);
+                                window.sessionStorage.setItem("roleId",res.data.user.roleId);
+                                window.sessionStorage.setItem("phone",res.data.user.phone);
+                                window.sessionStorage.setItem("email",res.data.user.email);
+                                
                                 //跳转
                                 _this.$router.push("/home");
                             }
